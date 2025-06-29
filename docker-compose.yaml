@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx-proxy
+    ports:
+      # mapeando a porta do nosso pc para a porta do container nginx (o nginx ta configurado na porta 80 no .conf
+      - 80:80
+    volumes:
+      # mapeia nosso arquivo de configuracao local para um de dentro do container
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro 
+      - ./nginx/html:/etc/nginx/html:ro
+    depends_on:
+      - wordpress
+      - phpmyadmin
+
+  mysql:
+    image: mysql:5.7 
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: wordpress_db      
+      MYSQL_USER: user        
+      MYSQL_PASSWORD: password
+    volumes:
+      # mapeia os dados do mysql num volume que a gente cria la no final do arquivo
+      - mysql-data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress-app
+    depends_on:
+      - mysql
+    environment:
+      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_USER: user
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DB_NAME: wordpress_db
+      WORDPRESS_CONFIG_EXTRA: | 
+          define('WP_HOME','http://localhost/wordpress');
+          define('WP_SITEURL','http://localhost/wordpress');
+    # nao precisa de ports
+    #   - "8080:80" # nao precisa pq o nginx já vai cuidar da exposição da porta
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-app
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql 
+      PMA_PATH: /phpmyadmin/
+      MYSQL_ROOT_PASSWORD: admin 
+    # nao precisa de ports
+    #   - "8081:80" # nao precisa pq o nginx já vai cuidar da exposição da porta
+
+volumes:
+  mysql-data:
