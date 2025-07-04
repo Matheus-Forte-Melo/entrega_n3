@@ -38,8 +38,9 @@ services:
       WORDPRESS_DB_PASSWORD: password
       WORDPRESS_DB_NAME: wordpress_db
       WORDPRESS_CONFIG_EXTRA: | 
-          define('WP_HOME','http://localhost/wordpress');
-          define('WP_SITEURL','http://localhost/wordpress');
+        define('WP_HOME','http://localhost/prova-martin');
+        define('WP_SITEURL','http://localhost/prova-martin');
+
     # nao precisa de ports
     #   - "8080:80" # nao precisa pq o nginx já vai cuidar da exposição da porta
 
