@@ -11,3 +11,5 @@ Repositório temporário para entrega da N3 de redes do professor Martin.
 
 - E se mesmo assim não funcionar?
 Ferrou. Mas só por via das dúvidas, mude para a branch "salva-vidas" e tente subir o container por lá, tem umas configurações diferentes que podem funcionar.
+
+-> Desenvolvido por MATHEUS FORTE DE MELO, MATHEUS KUCHENBECKER, WILLIAN CARLOS BUSCH e LUAN ELIZEU SANTTOS
